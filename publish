@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# remember to use the aur credential files:
+# ~/.ssh/aur
+# ~/.ssh/aur.pub
+#
+# with the following config:
+# ~/.ssh/config
+# Host aur.archlinux.org
+#  IdentityFile ~/.ssh/aur
+#  User aur
+
+for pkgname in $(ls); do
+  if [ -d $pkgname ] && [ -f $pkgname/PKGBUILD ]; then
+    cd $pkgname
+    git clone ssh://aur@aur.archlinux.org/${pkgname}.git
+    cp PKGBUILD $pkgname
+    cp .SRCINFO $pkgname
+    cd $pkgname
+    git add -f PKGBUILD .SRCINFO
+    git commit -m "Updating ${pkgname}"
+    git push
+    cd ..
+    rm -rf $pkgname
+    cd ..
+  fi
+done
+
+unset pkgname

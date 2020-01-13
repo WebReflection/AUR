@@ -1,0 +1,20 @@
+# Maintainer: Andrea Giammarchi <andrea.giammarchi@gmail.com>
+pkgname=cairo-glesv2-aarch64
+pkgver=1.17.2
+arch=(aarch64)
+pkgrel=1
+pkgdesc='Cairo vector graphics library (glesv2 version)'
+url='http://cairographics.org/'
+license=('LGPL' 'MPL')
+provides=('cairo=1.17.2' 'cairo-gl=1.17.2' 'cairo-xcb=1.17.2')
+conflicts=('cairo' 'cairo-gl' 'cairo-xcb')
+depends=('libpng' 'libxrender' 'libxext' 'fontconfig' 'pixman>=0.28.0' 'glib2' 'mesa' 'libgl' 'lzo')
+source=('https://webreflection.github.io/aur/cairo-glesv2-aarch64-1.17.2.tar.gz')
+md5sums=('38f3a70cc1613e00e204bbc0454d5884')
+sha1sums=('48da6a07debbc1da58d73092847718cd3c33d374')
+sha256sums=('51e395670a698aff4cac00e4aead80805bb9d1f241a37b4218ecdc897465a98b')
+sha512sums=('15bfbb6cae442e9f8b971190c7db3efd0e95db2b31d2650f3bf4e48a97d72ed7b6a93fed5ec51f4aafe3efc48444c880d689032cfef0ae3020cd3b3b0ce0b3b6')
+
+package () {
+    cp -R "${srcdir}/usr" "${pkgdir}"
+}

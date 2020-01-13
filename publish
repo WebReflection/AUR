@@ -13,6 +13,9 @@
 for pkgname in $(ls); do
   if [ -d $pkgname ] && [ -f $pkgname/PKGBUILD ]; then
     cd $pkgname
+    if [ ! -f .SRCINFO ]; then
+      makepkg --printsrcinfo > .SRCINFO
+    fi
     git clone ssh://aur@aur.archlinux.org/${pkgname}.git
     cp PKGBUILD $pkgname
     cp .SRCINFO $pkgname

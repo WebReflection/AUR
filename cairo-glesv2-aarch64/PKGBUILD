@@ -10,10 +10,10 @@ provides=('cairo=1.17.2' 'cairo-gl=1.17.2' 'cairo-xcb=1.17.2')
 conflicts=('cairo' 'cairo-gl' 'cairo-xcb')
 depends=('libpng' 'libxrender' 'libxext' 'fontconfig' 'pixman>=0.28.0' 'glib2' 'mesa' 'libgl' 'lzo')
 source=('https://webreflection.github.io/aur/cairo-glesv2-aarch64-1.17.2.tar.gz')
-md5sums=('38f3a70cc1613e00e204bbc0454d5884')
-sha1sums=('48da6a07debbc1da58d73092847718cd3c33d374')
-sha256sums=('51e395670a698aff4cac00e4aead80805bb9d1f241a37b4218ecdc897465a98b')
-sha512sums=('15bfbb6cae442e9f8b971190c7db3efd0e95db2b31d2650f3bf4e48a97d72ed7b6a93fed5ec51f4aafe3efc48444c880d689032cfef0ae3020cd3b3b0ce0b3b6')
+md5sums=('95ad74fa403f509fcb7127ac927a264e')
+sha1sums=('53b065e4a87677b2832f9ce2e4cdd21a6501fb95')
+sha256sums=('db1d0edf075eb7fe30deb9b423da1915a66cb2b8ba573cf8205034fa888e7687')
+sha512sums=('b29df24ee895a52bbdda11d47b64eb11423a478747ea66eb15960fb3249f8a8df01a1e57c39d89e37afecea0243f3889c5e41a6fda218cb066972ffd4d22f19b')
 
 package () {
     cp -R "${srcdir}/usr" "${pkgdir}"

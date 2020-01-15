@@ -14,9 +14,11 @@
 git add .
 git reset --hard
 git pull --rebase
+echo ""
 
 for pkgname in $(ls); do
   if [ -d $pkgname ] && [ -f $pkgname/PKGBUILD ]; then
+    echo -e "\033[7m \033[3mPublishing\033[0m\033[7m \033[1m$pkgname \033[0m"
     cd $pkgname
     if [ ! -f .SRCINFO ]; then
       makepkg --printsrcinfo > .SRCINFO
@@ -31,6 +33,7 @@ for pkgname in $(ls); do
     cd ..
     rm -rf $pkgname
     cd ..
+    echo ""
   fi
 done
 

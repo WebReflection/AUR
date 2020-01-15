@@ -10,6 +10,11 @@
 #  IdentityFile ~/.ssh/aur
 #  User aur
 
+
+git add .
+git reset --hard
+git pull --rebase
+
 for pkgname in $(ls); do
   if [ -d $pkgname ] && [ -f $pkgname/PKGBUILD ]; then
     cd $pkgname

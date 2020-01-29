@@ -11,6 +11,7 @@
 #  User aur
 
 TMP_PACKAGE="$1"
+TMP_SRCINFO=0
 
 git add .
 git reset --hard
@@ -24,6 +25,7 @@ for pkgname in $(ls); do
       cd $pkgname
       if [ ! -f .SRCINFO ]; then
         makepkg --printsrcinfo > .SRCINFO
+        TMP_SRCINFO=1
       fi
       git clone ssh://aur@aur.archlinux.org/${pkgname}.git
       cp PKGBUILD $pkgname
@@ -42,3 +44,9 @@ done
 
 unset TMP_PACKAGE
 unset pkgname
+
+if [ "$TMP_SRCINFO" = "1" ]; then
+  git add .
+  git commit -m "Added .SRCINFO"
+  git push
+fi

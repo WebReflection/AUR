@@ -10,6 +10,8 @@
 #  IdentityFile ~/.ssh/aur
 #  User aur
 
+TMP_PACKAGE="$1"
+
 git add .
 git reset --hard
 git pull --rebase
@@ -17,27 +19,26 @@ echo ""
 
 for pkgname in $(ls); do
   if [ -d $pkgname ] && [ -f $pkgname/PKGBUILD ]; then
-    echo -e "\033[7m \033[3mPublishing\033[0m\033[7m \033[1m$pkgname \033[0m"
-    cd $pkgname
-    if [ ! -f .SRCINFO ]; then
-      makepkg --printsrcinfo > .SRCINFO
-    fi
-    git clone ssh://aur@aur.archlinux.org/${pkgname}.git
-    cp PKGBUILD $pkgname
-    cp .SRCINFO $pkgname
-    cd $pkgname
-    git add -f PKGBUILD .SRCINFO
-    git commit -m "Updated ${pkgname}"
-    git push
-    cd ..
-    rm -rf $pkgname
-    cd ..
-    echo ""
-    if [ "$pkgname" = "$1" ]; then
-      unset pkgname
-      exit
+    if [ "$TMP_PACKAGE" = "" ] || [ "$TMP_PACKAGE" = "$pkgname" ]; then
+      echo -e "\033[7m \033[3mPublishing\033[0m\033[7m \033[1m$pkgname \033[0m"
+      cd $pkgname
+      if [ ! -f .SRCINFO ]; then
+        makepkg --printsrcinfo > .SRCINFO
+      fi
+      git clone ssh://aur@aur.archlinux.org/${pkgname}.git
+      cp PKGBUILD $pkgname
+      cp .SRCINFO $pkgname
+      cd $pkgname
+      git add -f PKGBUILD .SRCINFO
+      git commit -m "Updated ${pkgname}"
+      git push
+      cd ..
+      rm -rf $pkgname
+      cd ..
+      echo ""
     fi
   fi
 done
 
+unset TMP_PACKAGE
 unset pkgname

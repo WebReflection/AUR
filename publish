@@ -10,7 +10,6 @@
 #  IdentityFile ~/.ssh/aur
 #  User aur
 
-
 git add .
 git reset --hard
 git pull --rebase
@@ -28,12 +27,16 @@ for pkgname in $(ls); do
     cp .SRCINFO $pkgname
     cd $pkgname
     git add -f PKGBUILD .SRCINFO
-    git commit -m "Updating ${pkgname}"
+    git commit -m "Updated ${pkgname}"
     git push
     cd ..
     rm -rf $pkgname
     cd ..
     echo ""
+    if [ "$pkgname" = "$1" ]; then
+      unset pkgname
+      exit
+    fi
   fi
 done
 

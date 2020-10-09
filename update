@@ -2,7 +2,21 @@
 
 pkgname="$1"
 pkgver="$2"
-pkgrel="$3"
+
+arch=(aarch64 armv7l x86_64)
+
+checkFiles() {
+  local a;
+  local file;
+  for a in "${arch[@]}"; do
+    file="${pkgname}-${a}-${pkgver}.tar.gz"
+    if [ ! -f "$file" ]; then
+      echo 'FAIL'
+      return
+    fi
+  done
+  echo ''
+}
 
 getHash() {
     for hash in $("${1}sum" $2); do
@@ -14,13 +28,8 @@ getHash() {
 getSums() {
   local a;
   local file;
-  local arch=(aarch64 armv7l x86_64);
   for a in "${arch[@]}"; do
     file="${pkgname}-${a}-${pkgver}.tar.gz"
-    if [ ! -f "../$file" ]; then
-      echo -e "\033[1m404\033[0m Unable to publish $file"
-      exit 1;
-    fi
     echo "sha256sums_${a}=('$(getHash sha256 ../$file)')"
     if [ "$a" = "armv7l" ]; then
       echo "sha256sums_armv7h=('$(getHash sha256 ../$file)')"
@@ -28,34 +37,33 @@ getSums() {
   done
 }
 
+echo ''
+
 if [ "$pkgname" = "" ] || [ "$pkgver" = "" ]; then
-  echo 'Both package name and version are needed'
-  echo './update cog-wpe-bin 0.8.0'
+  echo -e "\033[1m400\033[0m both package name and version are needed"
+  echo ''
+  echo '  ./update cog-wpe-bin 0.8.0'
+  echo ''
   exit 1
 fi
 
 if [ ! -d "$pkgname" ]; then
-  echo -e "\033[1m404\033[0m Unknown folder $pkgname"
+  echo -e "\033[1m404\033[0m folder ${pkgname} not found"
+  echo ''
   exit 1;
 fi
 
-if [ "$pkgrel" = "" ]; then
-  pkgrel=1
-fi
-
-if [ ! -f "${pkgname}-aarch64-${pkgver}.tar.gz" ]; then
-  echo -e "\033[1m404\033[0m Unknown ${pkgname} version $pkgver"
+if [ "$(checkFiles)" != "" ]; then
+  echo -e "\033[1m404\033[0m ${pkgname} ${pkgver} version not found"
+  echo ''
   exit 1
 fi
 
-echo ''
 echo -e "\033[7m \033[3mPublishing\033[0m\033[7m \033[1m$pkgname \033[0m \033[1m${pkgver}\033[0m"
 
 cd "$pkgname"
 git clone ssh://aur@aur.archlinux.org/${pkgname}.git
 cp TEMPLATE $pkgname/PKGBUILD
-sed -i "s/pkgver=/pkgver=${pkgver}/" $pkgname/PKGBUILD
-sed -i "s/pkgrel=/pkgrel=${pkgrel}/" $pkgname/PKGBUILD
 getSums >> $pkgname/PKGBUILD
 echo '
 package () {
@@ -81,6 +89,6 @@ cd ..
 
 unset pkgname
 unset pkgver
-unset pkgrel
+unset arch
 
-echo ""
+echo ''

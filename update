@@ -37,6 +37,24 @@ getSums() {
   done
 }
 
+removeOld() {
+  local a;
+  local b;
+  local valid;
+  for a in $(ls ${pkgname}-*.tar.gz); do
+    valid=0
+    for b in $(ls ${pkgname}-*-${pkgver}.tar.gz); do
+      if [ "$a" = "$b" ]; then
+        valid=1
+      fi
+    done
+    if [ "$valid" = "0" ]; then
+      echo "removing $a"
+      rm -rf $a
+    fi
+  done
+}
+
 echo ''
 
 if [ "$pkgname" = "" ] || [ "$pkgver" = "" ]; then
@@ -60,6 +78,10 @@ if [ "$(checkFiles)" != "" ]; then
 fi
 
 echo -e "\033[7m \033[3mPublishing\033[0m\033[7m \033[1m$pkgname \033[0m \033[1m${pkgver}\033[0m"
+
+git add .
+git reset --hard
+git pull --rebase
 
 cd "$pkgname"
 git clone ssh://aur@aur.archlinux.org/${pkgname}.git
@@ -86,6 +108,12 @@ git push
 cd ..
 rm -rf $pkgname
 cd ..
+
+removeOld
+
+git add .
+git commit -m "Published ${pkgname}-${pkgver}"
+git push
 
 unset pkgname
 unset pkgver

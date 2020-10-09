@@ -11,11 +11,29 @@ checkFiles() {
   for a in "${arch[@]}"; do
     file="${pkgname}-${a}-${pkgver}.tar.gz"
     if [ ! -f "$file" ]; then
-      echo 'FAIL'
+      echo 0
       return
     fi
   done
-  echo ''
+  echo 1
+}
+
+removeFiles() {
+  local a;
+  local b;
+  local valid;
+  for a in $(ls ${pkgname}-*.tar.gz); do
+    valid=0
+    for b in $(ls ${pkgname}-*-${pkgver}.tar.gz); do
+      if [ "$a" = "$b" ]; then
+        valid=1
+      fi
+    done
+    if [ "$valid" = "0" ]; then
+      echo "removing $a"
+      rm -rf $a
+    fi
+  done
 }
 
 getHash() {
@@ -37,24 +55,6 @@ getSums() {
   done
 }
 
-removeOld() {
-  local a;
-  local b;
-  local valid;
-  for a in $(ls ${pkgname}-*.tar.gz); do
-    valid=0
-    for b in $(ls ${pkgname}-*-${pkgver}.tar.gz); do
-      if [ "$a" = "$b" ]; then
-        valid=1
-      fi
-    done
-    if [ "$valid" = "0" ]; then
-      echo "removing $a"
-      rm -rf $a
-    fi
-  done
-}
-
 echo ''
 
 if [ "$pkgname" = "" ] || [ "$pkgver" = "" ]; then
@@ -71,7 +71,7 @@ if [ ! -d "$pkgname" ]; then
   exit 1;
 fi
 
-if [ "$(checkFiles)" != "" ]; then
+if [ "$(checkFiles)" = "0" ]; then
   echo -e "\033[1m404\033[0m ${pkgname} ${pkgver} version not found"
   echo ''
   exit 1
@@ -109,7 +109,7 @@ cd ..
 rm -rf $pkgname
 cd ..
 
-removeOld
+removeFiles
 
 git add .
 git commit -m "Published ${pkgname}-${pkgver}"

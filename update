@@ -1,20 +1,86 @@
 #!/usr/bin/env bash
 
 pkgname="$1"
-echo ""
-echo -e "\033[7m \033[3mPublishing\033[0m\033[7m \033[1m$pkgname \033[0m"
+pkgver="$2"
+pkgrel="$3"
+
+getHash() {
+    for hash in $("${1}sum" $2); do
+        echo $hash
+        return
+    done
+}
+
+getSums() {
+  local a;
+  local file;
+  local arch=(aarch64 armv7l x86_64);
+  for a in "${arch[@]}"; do
+    file="${pkgname}-${a}-${pkgver}.tar.gz"
+    if [ ! -f "../$file" ]; then
+      echo -e "\033[1m404\033[0m Unable to publish $file"
+      exit 1;
+    fi
+    echo "sha256sums_${a}=('$(getHash sha256 ../$file)')"
+    if [ "$a" = "armv7l" ]; then
+      echo "sha256sums_armv7h=('$(getHash sha256 ../$file)')"
+    fi
+  done
+}
+
+if [ "$pkgname" = "" ] || [ "$pkgver" = "" ]; then
+  echo 'Both package name and version are needed'
+  echo './update cog-wpe-bin 0.8.0'
+  exit 1
+fi
+
+if [ ! -d "$pkgname" ]; then
+  echo -e "\033[1m404\033[0m Unknown folder $pkgname"
+  exit 1;
+fi
+
+if [ "$pkgrel" = "" ]; then
+  pkgrel=1
+fi
+
+if [ ! -f "${pkgname}-aarch64-${pkgver}.tar.gz" ]; then
+  echo -e "\033[1m404\033[0m Unknown ${pkgname} version $pkgver"
+  exit 1
+fi
+
+echo ''
+echo -e "\033[7m \033[3mPublishing\033[0m\033[7m \033[1m$pkgname \033[0m \033[1m${pkgver}\033[0m"
+
 cd "$pkgname"
-makepkg --printsrcinfo > .SRCINFO
 git clone ssh://aur@aur.archlinux.org/${pkgname}.git
-cp PKGBUILD $pkgname/
-cp .SRCINFO $pkgname/
+cp TEMPLATE $pkgname/PKGBUILD
+sed -i "s/pkgver=/pkgver=${pkgver}/" $pkgname/PKGBUILD
+sed -i "s/pkgrel=/pkgrel=${pkgrel}/" $pkgname/PKGBUILD
+getSums >> $pkgname/PKGBUILD
+echo '
+package () {
+    cp -R "${srcdir}/usr" "${pkgdir}"
+}
+' >> $pkgname/PKGBUILD
+
 cd $pkgname
+
+if [ -f .SRCINFO ]; then
+  rm .SRCINFO
+fi
+
+makepkg --printsrcinfo > .SRCINFO
+
 git add -f PKGBUILD .SRCINFO
 git commit -m "Updated ${pkgname}"
 git push
+
 cd ..
 rm -rf $pkgname
 cd ..
-echo ""
 
 unset pkgname
+unset pkgver
+unset pkgrel
+
+echo ""

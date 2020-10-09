@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo 'do not publish per folder'
+echo 'Use ./update pkg-name pkg-ver instead!'
 exit 1
 
 # remember to use the aur credential files:
@@ -13,43 +13,43 @@ exit 1
 #  IdentityFile ~/.ssh/aur
 #  User aur
 
-TMP_PACKAGE="$1"
-TMP_SRCINFO=0
+# TMP_PACKAGE="$1"
+# TMP_SRCINFO=0
 
-git add .
-git reset --hard
-git pull --rebase
-echo ""
+# git add .
+# git reset --hard
+# git pull --rebase
+# echo ""
 
-for pkgname in $(ls); do
-  if [ -d $pkgname ] && [ -f $pkgname/PKGBUILD ]; then
-    if [ "$TMP_PACKAGE" = "" ] || [ "$TMP_PACKAGE" = "$pkgname" ]; then
-      echo -e "\033[7m \033[3mPublishing\033[0m\033[7m \033[1m$pkgname \033[0m"
-      cd $pkgname
-      if [ ! -f .SRCINFO ]; then
-        makepkg --printsrcinfo > .SRCINFO
-        TMP_SRCINFO=1
-      fi
-      git clone ssh://aur@aur.archlinux.org/${pkgname}.git
-      cp PKGBUILD $pkgname
-      cp .SRCINFO $pkgname
-      cd $pkgname
-      git add -f PKGBUILD .SRCINFO
-      git commit -m "Updated ${pkgname}"
-      git push
-      cd ..
-      rm -rf $pkgname
-      cd ..
-      echo ""
-    fi
-  fi
-done
+# for pkgname in $(ls); do
+#   if [ -d $pkgname ] && [ -f $pkgname/PKGBUILD ]; then
+#     if [ "$TMP_PACKAGE" = "" ] || [ "$TMP_PACKAGE" = "$pkgname" ]; then
+#       echo -e "\033[7m \033[3mPublishing\033[0m\033[7m \033[1m$pkgname \033[0m"
+#       cd $pkgname
+#       if [ ! -f .SRCINFO ]; then
+#         makepkg --printsrcinfo > .SRCINFO
+#         TMP_SRCINFO=1
+#       fi
+#       git clone ssh://aur@aur.archlinux.org/${pkgname}.git
+#       cp PKGBUILD $pkgname
+#       cp .SRCINFO $pkgname
+#       cd $pkgname
+#       git add -f PKGBUILD .SRCINFO
+#       git commit -m "Updated ${pkgname}"
+#       git push
+#       cd ..
+#       rm -rf $pkgname
+#       cd ..
+#       echo ""
+#     fi
+#   fi
+# done
 
-unset TMP_PACKAGE
-unset pkgname
+# unset TMP_PACKAGE
+# unset pkgname
 
-if [ "$TMP_SRCINFO" = "1" ]; then
-  git add .
-  git commit -m "Added .SRCINFO"
-  git push
-fi
+# if [ "$TMP_SRCINFO" = "1" ]; then
+#   git add .
+#   git commit -m "Added .SRCINFO"
+#   git push
+# fi

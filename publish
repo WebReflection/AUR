@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+echo 'do not publish per folder'
+exit 1
+
 # remember to use the aur credential files:
 # ~/.ssh/aur
 # ~/.ssh/aur.pub

@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+pkgname="$1"
+echo ""
+echo -e "\033[7m \033[3mPublishing\033[0m\033[7m \033[1m$pkgname \033[0m"
+cd "$pkgname"
+makepkg --printsrcinfo > .SRCINFO
+git clone ssh://aur@aur.archlinux.org/${pkgname}.git
+cp PKGBUILD $pkgname/
+cp .SRCINFO $pkgname/
+cd $pkgname
+git add -f PKGBUILD .SRCINFO
+git commit -m "Updated ${pkgname}"
+git push
+cd ..
+rm -rf $pkgname
+cd ..
+echo ""
+
+unset pkgname

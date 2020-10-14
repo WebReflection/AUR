@@ -2,7 +2,7 @@
 pkgname=wpewebkit-bin
 pkgver=2.30.1
 arch=(aarch64 armv7h armv7l x86_64)
-pkgrel=1
+pkgrel=2
 pkgdesc='Web content engine library optimized for embedded devices (gl version)'
 url='https://wpewebkit.org'
 license=(custom)
@@ -16,4 +16,3 @@ source_aarch64=('wpewebkit-bin-aarch64::https://webreflection.github.io/aur/wpew
 source_armv7h=('wpewebkit-bin-armv7h::https://webreflection.github.io/aur/wpewebkit-bin-armv7l-2.30.1.tar.gz')
 source_armv7l=('wpewebkit-bin-armv7l::https://webreflection.github.io/aur/wpewebkit-bin-armv7l-2.30.1.tar.gz')
 source_x86_64=('wpewebkit-bin-x86::https://webreflection.github.io/aur/wpewebkit-bin-x86_64-2.30.1.tar.gz')
-

@@ -79,9 +79,9 @@ fi
 
 echo -e "\033[7m \033[3mPublishing\033[0m\033[7m \033[1m$pkgname \033[0m \033[1m${pkgver}\033[0m"
 
-# git add .
-# git reset --hard
-# git pull --rebase
+git add .
+git reset --hard
+git pull --rebase
 
 cd "$pkgname"
 git clone ssh://aur@aur.archlinux.org/${pkgname}.git

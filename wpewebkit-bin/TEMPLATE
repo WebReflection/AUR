@@ -1,19 +1,25 @@
 # Maintainer: Andrea Giammarchi <andrea.giammarchi@gmail.com>
 pkgname=wpewebkit-bin
-pkgver=2.30.4
+pkgver=2.32.0
 arch=(aarch64 armv7h armv7l x86_64)
 pkgrel=1
-pkgdesc='Web content engine library optimized for embedded devices (gl version)'
+pkgdesc='Web content engine library optimized for embedded devices (binary version)'
 url='https://wpewebkit.org'
 license=(custom)
 groups=(wpe)
 provides=('wpewebkit' 'wpewebkit-git')
 conflicts=('wpewebkit' 'wpewebkit-git')
-depends=(cairo libxslt gst-plugins-base-libs libepoxy libsoup libwebp
-         harfbuzz-icu woff2 openjpeg2 libseccomp bubblewrap xdg-dbus-proxy
-         geoclue at-spi2-atk libwpe)
-source_aarch64=('wpewebkit-bin-aarch64::https://webreflection.github.io/aur/wpewebkit-bin-aarch64-2.30.4.tar.gz')
-source_armv7h=('wpewebkit-bin-armv7h::https://webreflection.github.io/aur/wpewebkit-bin-armv7l-2.30.4.tar.gz')
-source_armv7l=('wpewebkit-bin-armv7l::https://webreflection.github.io/aur/wpewebkit-bin-armv7l-2.30.4.tar.gz')
-source_x86_64=('wpewebkit-bin-x86::https://webreflection.github.io/aur/wpewebkit-bin-x86_64-2.30.4.tar.gz')
+depends=(cairo fontconfig freetype2 glib2 harfbuzz harfbuzz-icu icu libjpeg
+         libepoxy libgcrypt libsoup libxml2 zlib libpng sqlite libwebp libwpe
+         atk at-spi2-atk openjpeg2 woff2 libtasn1 libxslt libsystemd bubblewrap
+         libseccomp xdg-dbus-proxy gstreamer gst-plugins-base-libs libxkbcommon
+         wayland wpebackend-fdo)
+optdepends=('geoclue: Geolocation support'
+            'gst-plugins-good: media decoding'
+            'gst-plugins-bad: media decoding'
+            'gst-libav: nonfree media decoding')
+source_aarch64=('wpewebkit-bin-aarch64::https://webreflection.github.io/aur/wpewebkit-bin-aarch64-2.32.0.tar.gz')
+source_armv7h=('wpewebkit-bin-armv7h::https://webreflection.github.io/aur/wpewebkit-bin-armv7l-2.32.0.tar.gz')
+source_armv7l=('wpewebkit-bin-armv7l::https://webreflection.github.io/aur/wpewebkit-bin-armv7l-2.32.0.tar.gz')
+source_x86_64=('wpewebkit-bin-x86::https://webreflection.github.io/aur/wpewebkit-bin-x86_64-2.32.0.tar.gz')
 

@@ -1,15 +1,16 @@
 # Maintainer: Andrea Giammarchi <andrea.giammarchi@gmail.com>
 pkgname=cairo-glesv3-bin
-pkgver=
+pkgver=1.17.4
 arch=(aarch64 armv7h armv7l x86_64)
-pkgrel=
+pkgrel=1
 pkgdesc='Cairo vector graphics library (glesv3 version)'
 url='http://cairographics.org/'
 license=('LGPL' 'MPL')
-provides=('cairo=1.17.2' 'cairo-gl=1.17.2' 'cairo-xcb=1.17.2')
+provides=('cairo=1.17.4' 'cairo-gl=1.17.4' 'cairo-xcb=1.17.4')
 conflicts=('cairo' 'cairo-gl' 'cairo-xcb')
 depends=('libpng' 'libxrender' 'libxext' 'fontconfig' 'pixman>=0.28.0' 'glib2' 'mesa' 'libgl' 'lzo')
-source_aarch64=("${pkgname}-aarch64::https://webreflection.github.io/aur/${pkgname}-aarch64-${pkgver}.tar.gz")
-source_armv7h=("${pkgname}-armv7h::https://webreflection.github.io/aur/${pkgname}-armv7l-${pkgver}.tar.gz")
-source_armv7l=("${pkgname}-armv7l::https://webreflection.github.io/aur/${pkgname}-armv7l-${pkgver}.tar.gz")
-source_x86_64=("${pkgname}-x86::https://webreflection.github.io/aur/${pkgname}-x86_64-${pkgver}.tar.gz")
+source_aarch64=('cairo-glesv3-bin-aarch64::https://webreflection.github.io/aur/cairo-glesv3-bin-aarch64-1.17.4.tar.gz')
+source_armv7h=('cairo-glesv3-bin-armv7h::https://webreflection.github.io/aur/cairo-glesv3-bin-armv7l-1.17.4.tar.gz')
+source_armv7l=('cairo-glesv3-bin-armv7l::https://webreflection.github.io/aur/cairo-glesv3-bin-armv7l-1.17.4.tar.gz')
+source_x86_64=('cairo-glesv3-bin-x86::https://webreflection.github.io/aur/cairo-glesv3-bin-x86_64-1.17.4.tar.gz')
+

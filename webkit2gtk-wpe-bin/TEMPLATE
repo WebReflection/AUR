@@ -1,0 +1,24 @@
+# Maintainer: Andrea Giammarchi <andrea.giammarchi@gmail.com>
+pkgname=webkit2gtk-wpe-bin
+pkgver=2.32.1
+arch=(aarch64 armv7h armv7l x86_64)
+pkgrel=1
+pkgdesc='GTK+ Web content engine library (glesv2 version)'
+url='https://webkitgtk.org'
+license=(custom)
+provides=('webkit2gtk' 'webkit2gtk-git')
+conflicts=('webkit2gtk' 'webkit2gtk-git')
+depends=(libxt libxslt enchant gst-plugins-base-libs libsecret libwebp openjpeg2
+         harfbuzz-icu gtk3 libnotify hyphen woff2 libwpe wpebackend-fdo
+         bubblewrap xdg-dbus-proxy)
+makedepends=(gperf gobject-introspection ruby gtk-doc cmake python geoclue
+             gst-plugins-bad)
+optdepends=('geoclue: Geolocation support'
+            'gst-plugins-good: media decoding'
+            'gst-plugins-bad: media decoding'
+            'gst-libav: nonfree media decoding')
+source_aarch64=('webkit2gtk-wpe-bin-aarch64::https://webreflection.github.io/aur/webkit2gtk-wpe-bin-aarch64-2.32.1.tar.gz')
+source_armv7h=('webkit2gtk-wpe-bin-armv7h::https://webreflection.github.io/aur/webkit2gtk-wpe-bin-armv7l-2.32.1.tar.gz')
+source_armv7l=('webkit2gtk-wpe-bin-armv7l::https://webreflection.github.io/aur/webkit2gtk-wpe-bin-armv7l-2.32.1.tar.gz')
+source_x86_64=('webkit2gtk-wpe-bin-x86::https://webreflection.github.io/aur/webkit2gtk-wpe-bin-x86_64-2.32.1.tar.gz')
+

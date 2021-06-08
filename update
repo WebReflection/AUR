@@ -103,7 +103,7 @@ makepkg --printsrcinfo > .SRCINFO
 
 git add -f PKGBUILD .SRCINFO
 git commit -m "Updated ${pkgname}"
-git push
+git push origin master
 
 cd ..
 rm -rf $pkgname
@@ -113,7 +113,7 @@ removeFiles
 
 git add .
 git commit -m "Published ${pkgname}-${pkgver}"
-git push
+git push origin master
 
 unset pkgname
 unset pkgver
